@@ -1,0 +1,29 @@
+{
+    "name": "fiisoft/logger",
+    "type": "library",
+    "description": "Micro-framework for reader and writer of logs with some abstractions and basic implementations.",
+    "keywords": ["logger","log","messages"],
+    "homepage": "https://github.com/fiiSoft/fiisoft-logger",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "FiiSoft",
+            "email": "fiisoft.production@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FiiSoft\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "roave/security-advisories": "dev-master",
+        "psr/log": "^1.0.0",
+        "fiisoft/basics": "^2.0.0",
+        "fiisoft/console": "^1.0.0",
+        "fiisoft/output-writer": "^1.0.0"
+    }
+}
