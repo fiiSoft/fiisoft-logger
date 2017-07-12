@@ -4,21 +4,15 @@ namespace FiiSoft\Tools\Logger\Reader\LogsMonitor;
 
 use BadMethodCallException;
 use FiiSoft\Tools\Logger\Reader\AbstractLogsMonitor;
-use FiiSoft\Tools\Logger\Reader\LogsReader;
 use InvalidArgumentException;
 
-final class DefaultLogsMonitor extends AbstractLogsMonitor
+final class InstantLogsMonitor extends AbstractLogsMonitor
 {
-    /** @var LogsReader */
-    private $logsReader;
+    /** @var integer|null */
+    private $maxReads;
     
-    /**
-     * @param LogsReader $logsReader
-     */
-    public function __construct(LogsReader $logsReader)
-    {
-        $this->logsReader = $logsReader;
-    }
+    /** @var int */
+    private $readsCounter = 0;
     
     /**
      * Start to sending logs to OutputWriter, which has to be set before call this method.
@@ -27,14 +21,33 @@ final class DefaultLogsMonitor extends AbstractLogsMonitor
      * @param integer|null $maxNum number of logs to read before return; must be >= 1
      * @param integer $timeout maximum time (in seconds) to wait for any log before return; 0 means "no timeout"
      * @throws BadMethodCallException if OutputWriter was not set before this method is call
-     * @throws InvalidArgumentException if param maxNum is invalid
+     * @throws InvalidArgumentException if param maxNum or timeout is invalid
      * @return void
      */
     public function start($maxNum = null, $timeout = 0)
     {
         $this->assertParamsAreValid($maxNum, $timeout);
         $this->prepareConsumer();
-        
-        $this->logsReader->read($this->consumer, $maxNum, $timeout);
+    
+        $this->maxReads = $maxNum;
+        $this->readsCounter = 0;
+    }
+    
+    /**
+     * @param string $message
+     * @param array $context
+     * @throws BadMethodCallException
+     * @return void
+     */
+    public function consumeLog($message, array $context = [])
+    {
+        if ($this->consumer) {
+            if ($this->maxReads === null) {
+                $this->consumer->consumeLog($message, $context);
+            } elseif ($this->readsCounter < $this->maxReads) {
+                $this->consumer->consumeLog($message, $context);
+                ++$this->readsCounter;
+            }
+        }
     }
 }

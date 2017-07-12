@@ -3,9 +3,9 @@
 namespace FiiSoft\Tools\Logger\Reader\LogsMonitor;
 
 use BadMethodCallException;
+use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\OutputWriter\OutputWriter;
 use InvalidArgumentException;
-use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 
 final class NullLogsMonitor implements LogsMonitor
 {

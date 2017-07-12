@@ -7,10 +7,10 @@ use FiiSoft\Tools\Logger\Writer\AbstractSmartLogger;
 use FiiSoft\Tools\Logger\Writer\LogsWriter;
 use RuntimeException;
 
-final class DefaultSmartLogger extends AbstractSmartLogger
+class DefaultSmartLogger extends AbstractSmartLogger
 {
     /** @var DefaultSmartLoggerConfig */
-    private $config;
+    protected $config;
     
     /** @var LogsWriter */
     private $writer;
@@ -44,7 +44,7 @@ final class DefaultSmartLogger extends AbstractSmartLogger
      * @throws RuntimeException
      * @return void
      */
-    public function log($level, $message, array $context = array())
+    final public function log($level, $message, array $context = array())
     {
         if (isset($this->levels[$level]) && $this->levels[$level] < $this->minLevel) {
             return;
@@ -72,7 +72,7 @@ final class DefaultSmartLogger extends AbstractSmartLogger
      * @throws RuntimeException
      * @return void
      */
-    private function handleWriteError(Exception $error, $message)
+    protected function handleWriteError(Exception $error, $message)
     {
         $errorMsg = 'Error during write to LogWriter: ['.$error->getCode().'] '.$error->getMessage()."\n"
             .'Stacktrace:'."\n".$error->getTraceAsString()."\n";
