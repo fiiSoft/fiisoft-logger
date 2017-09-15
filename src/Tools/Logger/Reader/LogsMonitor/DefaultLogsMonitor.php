@@ -13,11 +13,15 @@ final class DefaultLogsMonitor extends AbstractLogsMonitor
     private $logsReader;
     
     /**
+     * The list of Levels must be ordered from the least to the most significant (if provided).
+     *
      * @param LogsReader $logsReader
+     * @param array $levels use these levels instead of default if not empty
      */
-    public function __construct(LogsReader $logsReader)
+    public function __construct(LogsReader $logsReader, array $levels = [])
     {
         $this->logsReader = $logsReader;
+        $this->levels = $levels;
     }
     
     /**

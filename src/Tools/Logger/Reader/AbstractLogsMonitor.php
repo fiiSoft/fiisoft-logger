@@ -11,6 +11,9 @@ use InvalidArgumentException;
 
 abstract class AbstractLogsMonitor implements LogsMonitor
 {
+    /** @var array */
+    protected $levels = [];
+    
     /** @var string */
     protected $minLevel;
     
@@ -25,15 +28,24 @@ abstract class AbstractLogsMonitor implements LogsMonitor
     
     /**
      * One can set minimum level of logs that will be streamed to OutputWriter by this LogsMonitor.
-     * This is optional and if method is not call, all available logs are supossed to be streamed.
+     * This is optional and if method is not call, all available logs are supposed to be streamed.
+     *
+     * If second param is not empty then use this set of levels instead of defaults.
+     * The list of Levels must be ordered from the least to the most significant.
      *
      * @param string $level
+     * @param array $levels
      * @return $this fluent interface
      */
-    final public function filterByLevel($level)
+    final public function filterByLevel($level, array $levels = [])
     {
         if ($level !== $this->minLevel) {
             $this->minLevel = $level;
+            $this->consumer = null;
+        }
+    
+        if (!empty($levels)) {
+            $this->levels = $levels;
             $this->consumer = null;
         }
         
@@ -42,7 +54,7 @@ abstract class AbstractLogsMonitor implements LogsMonitor
     
     /**
      * One can set context that is required to stream logs to OutputWriter by this LogsMonitor.
-     * This is optional and if method is not call, all available logs are supossed to be streamed.
+     * This is optional and if method is not call, all available logs are supposed to be streamed.
      *
      * @param array $context
      * @return $this fluent interface
@@ -112,7 +124,7 @@ abstract class AbstractLogsMonitor implements LogsMonitor
         
         if ($this->minLevel) {
             $this->consumer = new ConsumerFilteredByLevel(
-                $this->consumer, $this->minLevel, [], $this->outputWriter
+                $this->consumer, $this->minLevel, $this->levels, $this->outputWriter
             );
         }
     }

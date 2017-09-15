@@ -14,12 +14,16 @@ final class NullLogsMonitor implements LogsMonitor
     
     /**
      * One can set minimum level of logs that will be streamed to OutputWriter by this LogsMonitor.
-     * This is optional and if method is not call, all available logs are supossed to be streamed.
+     * This is optional and if method is not call, all available logs are supposed to be streamed.
+     *
+     * If second param is not empty then use this set of levels instead of defaults.
+     * The list of Levels must be ordered from the least to the most significant.
      *
      * @param string $level
+     * @param array $levels
      * @return $this fluent interface
      */
-    public function filterByLevel($level)
+    public function filterByLevel($level, array $levels = [])
     {
         // noop
         return $this;
@@ -27,7 +31,7 @@ final class NullLogsMonitor implements LogsMonitor
     
     /**
      * One can set context that is required to stream logs to OutputWriter by this LogsMonitor.
-     * This is optional and if method is not call, all available logs are supossed to be streamed.
+     * This is optional and if method is not call, all available logs are supposed to be streamed.
      *
      * @param array $context
      * @return $this fluent interface

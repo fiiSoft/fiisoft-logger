@@ -2,6 +2,11 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 1.2.0
+
+Added two classes and three simple tests.
+Fixed bug with not-working properly LogsMonitor::filterByLevel() for non-default log levels.
+
 ## 1.1.0
 
  - added InstantSmartLogger and InstantLogsMonitor.
