@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 1.3.0
+
+Added class ConsoleLogger. It echos log messages directly to the STDOUT.
+
 ## 1.2.0
 
 Added two classes and three simple tests.
