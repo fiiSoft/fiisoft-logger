@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb4818ed63f0658df1da6c817c8f22ce",
+    "content-hash": "40ee1e35ae378d3f1580f33585d8e260",
     "packages": [
         {
             "name": "fiisoft/basics",
@@ -57,16 +57,16 @@
         },
         {
             "name": "fiisoft/console",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fiiSoft/fiisoft-console.git",
-                "reference": "4d20afdb43d7bfb4bcf7cca59eee6ec879d6d20e"
+                "reference": "de6c18b47550b2a55c6a46c1ca3f1ff9bb7eb28f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fiiSoft/fiisoft-console/zipball/4d20afdb43d7bfb4bcf7cca59eee6ec879d6d20e",
-                "reference": "4d20afdb43d7bfb4bcf7cca59eee6ec879d6d20e",
+                "url": "https://api.github.com/repos/fiiSoft/fiisoft-console/zipball/de6c18b47550b2a55c6a46c1ca3f1ff9bb7eb28f",
+                "reference": "de6c18b47550b2a55c6a46c1ca3f1ff9bb7eb28f",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "console",
                 "console command"
             ],
-            "time": "2017-10-22T21:42:44+00:00"
+            "time": "2017-10-26T22:07:51+00:00"
         },
         {
             "name": "fiisoft/output-writer",

@@ -38,16 +38,22 @@ final class ShowQueueLogsCommand extends AbstractCommand
         $this->addOption('level', 'l', InputOption::VALUE_REQUIRED, 'Min level of logs to show');
     }
     
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \InvalidArgumentException
+     * @return int
+     */
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         if (!$input->isInteractive()) {
             $output->writeln('This command cannot operate when no-interaction mode is enabled!');
-            exit(1);
+            return 1;
         }
     
         if ($this->isQuiet($output)) {
             $output->writeln('This command cannot operate when quiet mode is enabled!');
-            exit(2);
+            return 2;
         }
         
         $output->writeln('Waiting for logs messages. To exit press CTRL+C');
@@ -65,5 +71,7 @@ final class ShowQueueLogsCommand extends AbstractCommand
         } catch (Exception $e) {
             $output->writeln('Reading of logs interrupted: ['.$e->getCode().'] '.$e->getMessage());
         }
+        
+        return 0;
     }
 }

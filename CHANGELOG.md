@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 1.4.0
+
+Updated dependencies. Method ShowQueueLogsCommand::handleInput() returns status code now (instead of exit). 
+
 ## 1.3.0
 
 Added class ConsoleLogger. It echos log messages directly to the STDOUT.
