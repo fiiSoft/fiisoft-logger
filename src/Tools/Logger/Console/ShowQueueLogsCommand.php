@@ -17,12 +17,12 @@ final class ShowQueueLogsCommand extends AbstractCommand
     
     /**
      * @param LogsMonitor $logsMonitor
-     * @param string $name name of command used in CLI, example: show:logs
+     * @param string|null $name optional name of command used in CLI, by default is: show:logs
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(LogsMonitor $logsMonitor, $name)
+    public function __construct(LogsMonitor $logsMonitor, $name = null)
     {
-        parent::__construct($name);
+        parent::__construct($name ?: 'show:logs');
         $this->logsMonitor = $logsMonitor;
     }
     
@@ -36,6 +36,7 @@ final class ShowQueueLogsCommand extends AbstractCommand
             );
         
         $this->addOption('level', 'l', InputOption::VALUE_REQUIRED, 'Min level of logs to show');
+        $this->addOption('show-levels', 's', InputOption::VALUE_NONE, 'Show list of available levels of logs');
     }
     
     /**
@@ -47,13 +48,18 @@ final class ShowQueueLogsCommand extends AbstractCommand
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         if (!$input->isInteractive()) {
-            $output->writeln('This command cannot operate when no-interaction mode is enabled!');
+            $output->writeln('This command cannot operate when no-interactive mode is enabled!');
             return 1;
         }
     
         if ($this->isQuiet($output)) {
             $output->writeln('This command cannot operate when quiet mode is enabled!');
             return 2;
+        }
+    
+        if ($input->getOption('show-levels')) {
+            $this->writeln('Available levels of logs: '.implode(',', $this->logsMonitor->getLevels()));
+            return 0;
         }
         
         $output->writeln('Waiting for logs messages. To exit press CTRL+C');

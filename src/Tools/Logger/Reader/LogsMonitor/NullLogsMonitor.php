@@ -12,6 +12,33 @@ final class NullLogsMonitor implements LogsMonitor
     /** @var OutputWriter */
     private $outputWriter;
     
+    /** @var array */
+    private $levels = [];
+    
+    /**
+     * Allows to redefine levels (if different from default).
+     * The list of Levels must be ordered from the least to the most significant.
+     * Instead of call this method, new levels can be set by pass them as second argument to filterByLevels.
+     *
+     * @param array $levels
+     * @return $this fluent interface
+     */
+    public function setLevels(array $levels)
+    {
+        $this->levels = $levels;
+        return $this;
+    }
+    
+    /**
+     * List of levels that this LogsMonitor knows and can filter by one of them.
+     *
+     * @return array
+     */
+    public function getLevels()
+    {
+        return $this->levels;
+    }
+    
     /**
      * One can set minimum level of logs that will be streamed to OutputWriter by this LogsMonitor.
      * This is optional and if method is not call, all available logs are supposed to be streamed.
@@ -25,7 +52,9 @@ final class NullLogsMonitor implements LogsMonitor
      */
     public function filterByLevel($level, array $levels = [])
     {
-        // noop
+        if (!empty($levels)) {
+            $this->levels = $levels;
+        }
         return $this;
     }
     
@@ -38,7 +67,6 @@ final class NullLogsMonitor implements LogsMonitor
      */
     public function filterByContext(array $context)
     {
-        // noop
         return $this;
     }
     
@@ -86,7 +114,7 @@ final class NullLogsMonitor implements LogsMonitor
         }
     
         INFINITE_LOOP:
-            //simulate reading logs in infinite loop like
+            //simulate reading logs in infinite loop like real implementations
         goto INFINITE_LOOP;
     }
 }

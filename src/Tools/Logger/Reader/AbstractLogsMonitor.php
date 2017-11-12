@@ -27,6 +27,30 @@ abstract class AbstractLogsMonitor implements LogsMonitor
     protected $consumer;
     
     /**
+     * Allows to redefine levels (if different from default).
+     * The list of Levels must be ordered from the least to the most significant.
+     * Instead of call this method, new levels can be set by pass them as second argument to filterByLevels.
+     *
+     * @param array $levels
+     * @return $this fluent interface
+     */
+    final public function setLevels(array $levels)
+    {
+        $this->levels = $levels;
+        return $this;
+    }
+    
+    /**
+     * List of levels that this LogsMonitor knows and can filter by one of them.
+     *
+     * @return array
+     */
+    final public function getLevels()
+    {
+        return $this->levels;
+    }
+    
+    /**
      * One can set minimum level of logs that will be streamed to OutputWriter by this LogsMonitor.
      * This is optional and if method is not call, all available logs are supposed to be streamed.
      *
