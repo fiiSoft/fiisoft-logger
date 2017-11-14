@@ -37,10 +37,12 @@ final class ConsoleLogger extends AbstractSmartLogger
      */
     public function log($level, $message, array $context = array())
     {
+        $eol = isset($context['newLine']) && $context['newLine'] === false ? '' : PHP_EOL;
+        
         if ($this->addLeveLMarkersToMessage && !empty($level)) {
-            echo '<',$level,'>',$message,'</',$level,'>',PHP_EOL;
+            echo '<',$level,'>',$message,'</',$level,'>',$eol;
         } else {
-            echo $message,PHP_EOL;
+            echo $message,$eol;
         }
     }
 }

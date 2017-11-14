@@ -2,6 +2,12 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 2.1.0
+
+Added new classes:
+* adapter of SmartLogger to Symfony's OutputInterface: SymfonyOutputLoggerAdapter 
+* two new writers: BufferedWriter and ConsoleWriter
+
 ## 2.0.0
 
 New methods (setLevels and getLevels) was added to interface LogsMonitor.

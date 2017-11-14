@@ -21,7 +21,7 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
         self::assertSame('<info>This is info</info>'.PHP_EOL, ob_get_clean());
     }
     
-    public function test_it_does_not_add_level_as_marker_if_log_is_empty()
+    public function test_it_does_not_add_level_as_marker_if_level_is_empty()
     {
         $logger = new ConsoleLogger(true);
     

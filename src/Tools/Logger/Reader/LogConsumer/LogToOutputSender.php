@@ -25,6 +25,6 @@ final class LogToOutputSender implements LogConsumer
      */
     public function consumeLog($message, array $context = [])
     {
-        $this->output->normal($message);
+        $this->output->normal($message, !isset($context['newLine']) || $context['newLine'] !== false);
     }
 }
