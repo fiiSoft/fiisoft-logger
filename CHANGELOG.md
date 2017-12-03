@@ -2,6 +2,18 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 2.2.0
+
+Added new writers:
+* GenericLogsWriter
+* LimitedLogsWriter
+* MultiLogsWriter
+
+Also added three implementations of Constraint to use for LimitedLogsWriter:
+* GenericConstraint
+* MaxNumberOfWritesConstraint
+* NumberOfWritesPerTimeConstraint
+
 ## 2.1.0
 
 Added new classes:
