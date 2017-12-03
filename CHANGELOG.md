@@ -2,6 +2,11 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 3.0.0
+
+There are no new features in this release. 
+It is just backward-incompatible because all classes have been moved to other namespaces.
+
 ## 2.2.0
 
 Added new writers:
