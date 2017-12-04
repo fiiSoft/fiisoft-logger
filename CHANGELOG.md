@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 3.1.0
+
+NumberOfWritesPerTimeConstraint optimised for number of write equal 1 and 0.
+
 ## 3.0.0
 
 There are no new features in this release. 
