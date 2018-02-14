@@ -2,6 +2,12 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 3.2.0
+
+MultiLogsWriter is using now LogsWriter by proxy class WriterItem to control if message should be pass to LogsWriter or not.
+
+Also new proxy class AutoDelayedWriter has been added and it offers similar functionality.
+
 ## 3.1.0
 
 NumberOfWritesPerTimeConstraint optimised for number of write equal 1 and 0.

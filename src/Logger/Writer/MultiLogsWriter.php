@@ -6,7 +6,7 @@ use Exception;
 
 final class MultiLogsWriter implements LogsWriter
 {
-    /** @var LogsWriter[] */
+    /** @var WriterItem[] */
     private $writers = [];
     
     /**
@@ -48,7 +48,14 @@ final class MultiLogsWriter implements LogsWriter
      */
     public function addWriter(LogsWriter $writer)
     {
-        $this->writers[] = $writer;
+        if ($writer instanceof WriterItem) {
+            $this->writers[] = $writer;
+        } elseif ($writer instanceof AutoDelayedWriter) {
+            $this->writers[] = $writer->getWriterItem();
+        } else {
+            $this->writers[] = new WriterItem($writer);
+        }
+        
         return $this;
     }
     
@@ -60,26 +67,25 @@ final class MultiLogsWriter implements LogsWriter
     public function write($message, array $context = [])
     {
         $errors = [];
-        $workingWriters = [];
+        $time = null;
         
-        foreach ($this->writers as $key => $writer) {
+        foreach ($this->writers as $item) {
             try {
-                $writer->write($message, $context);
-                $workingWriters[] = $writer;
+                $item->write($message, $context);
             } catch (Exception $e) {
-                $errors[] = 'Write message error! Message: "'.$message.'". Writer: '.get_class($writer)
+                $item->writerIsDead();
+    
+                $errors[] = 'Write message error! Message: "'.$message.'"
+                    . Writer: '.get_class($item->getWriter())
                     .'. Exception: ['.$e->getCode().'] '.$e->getMessage()
                     .'. Stacktrace: '.$e->getTraceAsString();
             }
         }
     
         foreach ($errors as $error) {
-            foreach ($workingWriters as $writer) {
-                try {
-                    $writer->write($error, ['source' => 'MultiWriter', 'level' => 'alert']);
+            foreach ($this->writers as $item) {
+                if ($item->writeIfAlive($error, ['source' => 'MultiWriter', 'level' => 'alert'])) {
                     break;
-                } catch (Exception $e) {
-                    //noop
                 }
             }
         }
