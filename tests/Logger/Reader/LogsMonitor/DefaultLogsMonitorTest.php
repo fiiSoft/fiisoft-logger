@@ -59,4 +59,40 @@ class DefaultLogsMonitorTest extends \PHPUnit_Framework_TestCase
         self::assertSame(3, $outputWriter->count());
         self::assertSame(['ma', 'kot', 'psa'], $outputWriter->getBufferedMessages());
     }
+    
+    public function test_it_can_forward_messages_with_particular_level()
+    {
+        $logsLevels = ['fifth', 'fourth', 'third', 'second', 'first'];
+    
+        $logs = [
+            'ala',
+            [
+                'message' => 'ma',
+                'level' => 'third',
+            ],
+            'kota',
+            'a',
+            [
+                'message' => 'kot',
+                'level' => 'fourth',
+            ],
+            'ma',
+            [
+                'message' => 'psa',
+                'level' => 'fifth',
+            ]
+        ];
+    
+        $logsReader = new FromArrayLogsReader($logs, 'first');
+    
+        $outputWriter = new BufferedOutputWriter();
+    
+        $monitor = new DefaultLogsMonitor($logsReader, $logsLevels);
+        $monitor->setOutputWriter($outputWriter);
+        $monitor->filterByLevel('fourth', ['fourth']);
+        $monitor->start(count($logs));
+    
+        self::assertSame(1, $outputWriter->count());
+        self::assertSame(['kot'], $outputWriter->getBufferedMessages());
+    }
 }

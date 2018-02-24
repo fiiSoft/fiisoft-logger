@@ -36,6 +36,7 @@ final class ShowLogsCommand extends AbstractCommand
         
         $this->addOption('level', 'l', InputOption::VALUE_REQUIRED, 'Min level of logs to show');
         $this->addOption('show-levels', 's', InputOption::VALUE_NONE, 'Show list of available levels of logs');
+        $this->addOption('only', 'o', InputOption::VALUE_NONE, 'Show only logs with level determined by option --level');
     }
     
     /**
@@ -45,11 +46,6 @@ final class ShowLogsCommand extends AbstractCommand
      */
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->isInteractive()) {
-            $output->writeln('This command cannot operate when no-interactive mode is enabled!');
-            return 1;
-        }
-    
         if ($this->isQuiet($output)) {
             $output->writeln('This command cannot operate when quiet mode is enabled!');
             return 2;
@@ -60,12 +56,22 @@ final class ShowLogsCommand extends AbstractCommand
             return 0;
         }
         
+        $minLevel = $input->getOption('level');
+        $onlyLevel = $input->getOption('only');
+        
         $output->writeln('Waiting for logs messages. To exit press CTRL+C');
         
-        $minLevel = $input->getOption('level');
         if ($minLevel) {
-            $this->writelnV('Only logs with level ' . $minLevel . ' or greater will be shown');
+            if ($onlyLevel) {
+                $this->logsMonitor->setLevels([$minLevel]);
+                $this->writelnV('Only logs with level ' . $minLevel . ' will be shown');
+            } else {
+                $this->writelnV('Only logs with level ' . $minLevel . ' or greater will be shown');
+            }
+            
             $this->logsMonitor->filterByLevel($minLevel);
+        } elseif ($onlyLevel) {
+            $this->writeln('Option --only without --level has no sense');
         }
     
         $this->logsMonitor->setOutputWriter(new SymfonyConsoleOutputWriter($output));

@@ -2,6 +2,11 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 3.3.0
+
+Console command ShowLogsCommand has optional option --only (-o) to restrict displayed logs to those with level
+determined strictly by option --level.
+
 ## 3.2.0
 
 MultiLogsWriter is using now LogsWriter by proxy class WriterItem to control if message should be pass to LogsWriter or not.

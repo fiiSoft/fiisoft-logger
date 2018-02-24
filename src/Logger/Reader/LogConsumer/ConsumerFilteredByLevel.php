@@ -62,24 +62,50 @@ final class ConsumerFilteredByLevel implements LogConsumer
         
         $found = array_search($minLevel, $this->levels, true);
     
-        if ($found !== false && $found < (count($this->levels) - 1)) {
-            $this->debug('found level: '.$found);
-        
-            $allow = $found + 1 < (count($this->levels) / 2);
-            if ($allow) {
-                $this->levels = array_slice($this->levels, 0, $found + 1);
-            } else {
-                $this->levels = array_slice($this->levels, $found + 1);
-            }
-        
-            $this->filterEnabled = true;
-            $this->disallow = !$allow;
+        if ($found !== false) {
+            if ($found < (count($this->levels) - 1)) {
+                $this->debug('found level: '.$found);
             
-            $this->debug('mode: ' . ($allow ? 'allow' : 'deny'));
-            $this->debug('filtering enabled');
-        } else {
-            $this->debug('filtering disabled');
+                $allow = $found + 1 < (count($this->levels) / 2);
+                if ($allow) {
+                    $this->levels = array_slice($this->levels, 0, $found + 1);
+                } else {
+                    $this->levels = array_slice($this->levels, $found + 1);
+                }
+                
+                $this->enableFiltering($allow);
+                return;
+            }
+            
+            if (count($this->levels) === 1) {
+                $this->enableFiltering(true);
+                return;
+            }
         }
+        
+        $this->disableFiltering();
+    }
+    
+    /**
+     * @param bool $mode
+     * @return void
+     */
+    private function enableFiltering($mode)
+    {
+        $this->filterEnabled = true;
+        $this->disallow = !$mode;
+    
+        $this->debug('mode: ' . ($mode ? 'allow' : 'deny'));
+        $this->debug('filtering enabled');
+    }
+    
+    /**
+     * @return void
+     */
+    private function disableFiltering()
+    {
+        $this->filterEnabled = false;
+        $this->debug('filtering disabled');
     }
     
     /**
