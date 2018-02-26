@@ -16,7 +16,7 @@ trait LoggedExceptionThrower
      * @throws RuntimeException
      * @return void
      */
-    final protected function throwException($exception, $critical = true)
+    protected function throwException($exception, $critical = true)
     {
         if ($exception instanceof Exception) {
             $message = $exception->getMessage();

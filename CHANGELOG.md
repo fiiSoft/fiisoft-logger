@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-logger` will be documented in this file
 
+## 3.3.1
+
+Method LoggedExceptionThrower::throwException is not final.
+
 ## 3.3.0
 
 Console command ShowLogsCommand has optional option --only (-o) to restrict displayed logs to those with level
